@@ -18,22 +18,10 @@ class handler(BaseHTTPRequestHandler):
 
         try:
             response = supabase.table("chat").insert(data).execute()
-            print(response.data)
-            # Instead of directly accessing error, check the response's status
-            if response.count < 1:
-                # Log the entire response to see what it contains
-                print("Failed to insert data:", response)
-                self.send_response(response.status_code)
-                self.send_header('Content-type', 'application/json')
-                self.end_headers()
-                # Attempt to send a detailed error message
-                error_message = response.get('message', str(response))
-                self.wfile.write(json.dumps({"success": False, "error": error_message}).encode())
-            else:
-                self.send_response(200)
-                self.send_header('Content-type', 'application/json')
-                self.end_headers()
-                self.wfile.write(json.dumps({"success": True, "data": response.data}).encode())
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({"success": True, "data": response.data}).encode())
 
         except Exception as e:
             print("Exception occurred:", e)
