@@ -13,9 +13,11 @@ supabase = create_client(URL, KEY)
 class handler(BaseHTTPRequestHandler):
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
+        print(content_length)
         post_data = self.rfile.read(content_length)
+        print(post_data)
         data = json.loads(post_data)
-
+        print(data)
         # Insert the data into your Supabase table
         response = supabase.table("experiments").insert(data).execute()
 
