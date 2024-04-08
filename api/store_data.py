@@ -18,9 +18,9 @@ class handler(BaseHTTPRequestHandler):
 
         try:
             response = supabase.table("chat").insert(data).execute()
-
+            print(response.data)
             # Instead of directly accessing error, check the response's status
-            if response.status_code != 200:
+            if response.count < 1:
                 # Log the entire response to see what it contains
                 print("Failed to insert data:", response)
                 self.send_response(response.status_code)
